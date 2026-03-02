@@ -29,34 +29,4 @@ class HomeController extends Controller
         return view('welcome');
     }
 
-    private function startParse()
-    {
-        $config['base_url'] = 'https://rudingli.ru/';
-        $config['url'] = 'https://rudingli.ru/products/nozhnichnye-podemniki/jcpt1008ha/';
-        $config['selectors'] = [
-            'title' => '.product__title',
-            'preview_text' => '.product__text',
-            'detail_text' => '.tabs__content-inner',
-            'images' => '.product__img',
-            'attributes_name' => '.product__tabs-table .table__row-name',
-            'attributes_values' => '.product__tabs-table .table__row-meaning',
-        ];
-        $config['selectors_type'] = [
-            'title' => 'single',
-            'preview_text' => 'single',
-            'detail_text' => 'single',
-            'images' => 'images',
-            'attributes_name' => 'multiple',
-            'attributes_values' => 'multiple'
-
-        ];
-        $config['type'] = 'single';
-
-        $pageParser = new PageParser();
-        $parserServices = new ParserService($pageParser);
-
-        $result = $parserServices->parse($config);
-
-        dd($result);
-    }
 }

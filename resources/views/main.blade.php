@@ -11,26 +11,15 @@
                         </div>
                         <div class="mt-6 border-t border-white/10">
                             <dl class="divide-y divide-white/10">
-                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt class="text-sm/6 font-medium text-gray-100"><a href="">Название проекта</a></dt>
-                                    <dd class="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">Пользовательское описание</dd>
-                                </div>
-                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt class="text-sm/6 font-medium text-gray-100"><a href="">Название проекта</a></dt>
-                                    <dd class="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">Пользовательское описание</dd>
-                                </div>
-                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt class="text-sm/6 font-medium text-gray-100"><a href="">Название проекта</a></dt>
-                                    <dd class="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">Пользовательское описание</dd>
-                                </div>
-                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt class="text-sm/6 font-medium text-gray-100"><a href="">Название проекта</a></dt>
-                                    <dd class="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">Пользовательское описание</dd>
-                                </div>
-                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dt class="text-sm/6 font-medium text-gray-100"><a href="">Название проекта</a></dt>
-                                    <dd class="mt-1 text-sm/6 text-gray-400 sm:col-span-2 sm:mt-0">Пользовательское описание</dd>
-                                </div>
+                                @for($i=1; $i<=5; $i++)
+                                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:items-start">
+                                        <dt class="text-sm/6 font-medium text-gray-100">Название проекта {{$i}}</dt>
+                                        <dd class="text-sm/6 text-gray-400">Пользовательское описание проекта {{$i}}</dd>
+                                        <div class="flex items-center justify-end gap-x-6">
+                                            <a href="#" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Edit</a>
+                                        </div>
+                                    </div>
+                                @endfor
                             </dl>
                         </div>
                     </div>
