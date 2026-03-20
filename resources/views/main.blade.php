@@ -5,9 +5,14 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 bg-gray-900">
                     <div>
-                        <div class="px-4 sm:px-0">
-                            <h3 class="text-base/7 font-semibold text-white">Ваши проекты</h3>
-                            <p class="mt-1 max-w-2xl text-sm/6 text-gray-400">В этом разделе находятся все сохраненные проекты пользователя</p>
+                        <div class="px-4 sm:px-0 grid grid-cols-3 gap-4">
+                            <div class="col-span-2">
+                                <h3 class="text-base/7 font-semibold text-white">You projects list</h3>
+                                <p class="mt-1 max-w-2xl text-sm/6 text-gray-400">Select project or create new project.</p>
+                            </div>
+                            <div class="flex items-center justify-end gap-x-6 grid-cols-1">
+                                <a href="#" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"><span class="">+</span> Create Project</a>
+                            </div>
                         </div>
                         <div class="mt-6 border-t border-white/10">
                             <dl class="divide-y divide-white/10">
