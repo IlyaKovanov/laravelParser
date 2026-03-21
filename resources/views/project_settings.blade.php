@@ -4,8 +4,25 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 bg-gray-900">
-
-                    <form>
+                    @if(session('error'))
+                        <div class="alert alert-danger text-white">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                        @if($errors->any())
+                            <div class="alert alert-danger text-white">
+                                <ul>
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    <form method="POST" action="{{isset($project) ? route('projects.update', $project->id) : route('projects.store')}}">
+                        @csrf
+                        @if(isset($project))
+                            @method('PUT')  <!-- Только при редактировании -->
+                        @endif
                         <div class="space-y-12">
                             <div class="border-b border-white/10 pb-12">
                                 <h2 class="text-base/7 font-semibold text-white">Project</h2>
@@ -15,7 +32,7 @@
                                     <div class="sm:col-span-4">
                                         <label for="project_name" class="block text-sm/6 font-medium text-white">Project name</label>
                                         <div class="mt-2">
-                                            <input id="project_name" type="text" name="project_name" autocomplete="given-name" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                                            <input id="project_name" type="text" name="name" autocomplete="given-name" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" value="{{isset($project) ? $project->name : ''}}"/>
                                         </div>
 
                                     </div>
@@ -23,7 +40,14 @@
                                     <div class="sm:col-span-4">
                                         <label for="base_url" class="block text-sm/6 font-medium text-white">Base url</label>
                                         <div class="mt-2">
-                                            <input id="base_url" type="text" name="base_url" autocomplete="given-name" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                                            <input id="base_url" type="text" name="base_url" autocomplete="given-name" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" value="{{isset($project) ? $project->base_url : ''}}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-span-full">
+                                        <label for="description" class="block text-sm/6 font-medium text-white">Project description</label>
+                                        <div class="mt-2">
+                                            <textarea id="description" name="description" rows="3" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">{{isset($project) ? $project->description : ''}}</textarea>
                                         </div>
                                     </div>
 
@@ -34,7 +58,6 @@
                                         </div>
                                         <p class="mt-3 text-sm/6 text-gray-400">Each link to new string.</p>
                                     </div>
-
                                 </div>
                             </div>
 
@@ -74,15 +97,14 @@
                                     <button type="button" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Add row</button>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="mt-6 flex items-center justify-end gap-x-6">
                             <button type="button" class="text-sm/6 font-semibold text-white">Cancel</button>
                             <button type="submit" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Save</button>
-                            <button type="submit" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Start parser</button>
+                            <button type="button" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Start parser</button>
                         </div>
-
+                        <input type="hidden" name="user_id" value="{{auth()->id()}}">
                     </form>
 
                 </div>

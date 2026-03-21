@@ -15,5 +15,7 @@ class Project extends Model
         'base_url',
         'selectors',
         'selectors_type',
+        'description',
+        'user_id'
     ];
 }

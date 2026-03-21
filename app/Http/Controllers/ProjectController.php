@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectRequest;
+use App\Models\Project;
 use App\Services\Parser\Parsers\PageParser;
 use App\Services\Parser\ParserService;
 
@@ -25,8 +27,49 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //$this->startParse();
+        $projects = Project::orderBy('id', 'desc')->paginate(20);
+        return view('main', ['projects' => $projects]);
+    }
+    public function create()
+    {
         return view('project_settings');
+    }
+
+    public function store(ProjectRequest $request)
+    {
+       $project = Project::firstOrCreate(
+           ['base_url' => $request->base_url],
+           $request->validated()
+       );
+
+        if (!$project->wasRecentlyCreated) {
+            // Элемент уже существует
+            return redirect()->back()->with('error', 'Проект с таким base_url уже существует');
+        } else {
+            // Элемент был создан
+            return redirect()->route('projects.index')->with('success', 'Проект успешно создан');
+        }
+
+    }
+
+    public function update(ProjectRequest $request, $id)
+    {
+        $project = Project::find($id);
+        $project->update($request->validated());
+        return redirect()->route('projects.index')->with('success', 'Проект успешно обновлен');
+    }
+
+    public function show($id)
+    {
+        $project = Project::find($id);
+        return view('project_settings', ['project' => $project]);
+    }
+
+    public function destroy($id)
+    {
+        $project = Project::find($id);
+        $project->delete();
+        return redirect()->route('projects.index')->with('success', 'Проект успешно удален');
     }
 
     private function startParse()

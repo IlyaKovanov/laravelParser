@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('description')->nullable();
             $table->string('base_url')->nullable();
             $table->json('selectors')->nullable();
             $table->json('selectors_type')->nullable();
@@ -21,6 +22,8 @@ return new class extends Migration
             $table->index('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 
