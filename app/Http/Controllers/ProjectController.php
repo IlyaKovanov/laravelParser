@@ -43,11 +43,19 @@ class ProjectController extends Controller
        );
 
         if (!$project->wasRecentlyCreated) {
-            // Элемент уже существует
-            return redirect()->back()->with('error', 'Проект с таким base_url уже существует');
+            return response()->json([
+                'message' => 'Проект с таким base_url уже существует',
+                'errors' => ['base_url' => ['Проект с таким base_url уже существует']]
+            ], 409);
         } else {
             // Элемент был создан
-            return redirect()->route('projects.index')->with('success', 'Проект успешно создан');
+            return response()->json([
+                'message' => 'Проект успешно создан',
+                'id' => $project->id,
+                'project' => $project,
+                'selectors' => $project->selectors,
+                'redirect' => route('projects.index')
+            ], 201);
         }
 
     }
@@ -69,37 +77,44 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
         $project->delete();
-        return redirect()->route('projects.index')->with('success', 'Проект успешно удален');
+
+        return response()->json([
+            'message' => 'Проект успешно удален'
+        ]);
+
     }
 
-    private function startParse()
+    public function startParse()
     {
-        $config['base_url'] = 'https://rudingli.ru/';
-        $config['url'] = 'https://rudingli.ru/products/nozhnichnye-podemniki/jcpt1008ha/';
-        $config['selectors'] = [
-            'title' => '.product__title',
-            'preview_text' => '.product__text',
-            'detail_text' => '.tabs__content-inner',
-            'images' => '.product__img',
-            'attributes_name' => '.product__tabs-table .table__row-name',
-            'attributes_values' => '.product__tabs-table .table__row-meaning',
-        ];
-        $config['selectors_type'] = [
-            'title' => 'single',
-            'preview_text' => 'single',
-            'detail_text' => 'single',
-            'images' => 'images',
-            'attributes_name' => 'multiple',
-            'attributes_values' => 'multiple'
-
-        ];
-        $config['type'] = 'single';
-
-        $pageParser = new PageParser();
-        $parserServices = new ParserService($pageParser);
-
-        $result = $parserServices->parse($config);
-
-        dd($result);
+        return response()->json([
+            'message' => 'Успешно выполнено'
+        ]);
+//        $config['base_url'] = 'https://rudingli.ru/';
+//        $config['url'] = 'https://rudingli.ru/products/nozhnichnye-podemniki/jcpt1008ha/';
+//        $config['selectors'] = [
+//            'title' => '.product__title',
+//            'preview_text' => '.product__text',
+//            'detail_text' => '.tabs__content-inner',
+//            'images' => '.product__img',
+//            'attributes_name' => '.product__tabs-table .table__row-name',
+//            'attributes_values' => '.product__tabs-table .table__row-meaning',
+//        ];
+//        $config['selectors_type'] = [
+//            'title' => 'single',
+//            'preview_text' => 'single',
+//            'detail_text' => 'single',
+//            'images' => 'images',
+//            'attributes_name' => 'multiple',
+//            'attributes_values' => 'multiple'
+//
+//        ];
+//        $config['type'] = 'single';
+//
+//        $pageParser = new PageParser();
+//        $parserServices = new ParserService($pageParser);
+//
+//        $result = $parserServices->parse($config);
+//
+//        dd($result);
     }
 }

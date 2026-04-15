@@ -22,7 +22,7 @@
                                         <dd class="text-sm/6 text-gray-400">{{$project->description}}</dd>
                                         <div class="flex items-center justify-end gap-x-6">
                                             <a href="{{route('projects.show', $project->id)}}" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Edit</a>
-                                            <a href="{{route('projects.destroy', $project->id)}}" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Delete</a>
+                                            <a href="{{route('projects.destroy', $project->id)}}" class="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500">Delete</a>
                                         </div>
                                     </div>
                                 @endforeach
