@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Project extends Model
+class Selector extends Model
 {
     use SoftDeletes, HasFactory;
 
     protected $fillable = [
-        'name',
-        'base_url',
-        'description',
-        'user_id'
+        'title',
+        'selector',
+        'selector_type',
+        'project_id'
     ];
 }

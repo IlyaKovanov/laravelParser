@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return auth()->check() ? view('main') : view('welcome');
+    $projects = Project::all();
+    return auth()->check() ? redirect()->route('projects.index') : view('welcome');
 })->name('home');
 
 Route::get('/dashboard', function () {

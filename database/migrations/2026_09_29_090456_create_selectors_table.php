@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('selectors', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('base_url')->nullable();
-            $table->foreignId('user_id')->constrained('users');
+            $table->string('title');
+            $table->string('selector');
+            $table->foreignId('selector_type_id')->constrained('selector_types');
+            $table->foreignId('project_id')->constrained('projects');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('selectors');
     }
 };
