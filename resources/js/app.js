@@ -10,7 +10,7 @@ Alpine.data('projectForm', (initialData = {}) => ({
         name: initialData.name || '',
         base_url: initialData.base_url || '',
         description: initialData.description || '',
-        url_list: initialData.url_list || '',
+        links: initialData.links || '',
         user_id: initialData.user_id || null,
         selectors: []
     },
@@ -18,8 +18,8 @@ Alpine.data('projectForm', (initialData = {}) => ({
     init() {
         console.log('Project form initialized with data:', this.form);
 
-        // Если есть url_list и это строка, можно преобразовать в массив если нужно
-        if (this.form.url_list && typeof this.form.url_list === 'string') {
+        // Если есть list и это строка, можно преобразовать в массив если нужно
+        if (this.form.links && typeof this.form.links === 'string') {
             // Оставляем как есть для textarea
         }
 
@@ -42,9 +42,9 @@ Alpine.data('projectForm', (initialData = {}) => ({
         else {
             // Создаем 3 пустых селектора
             this.form.selectors = [
-                { id: null, title: '', selector: '', selector_type: 'text' },
-                { id: null, title: '', selector: '', selector_type: 'text' },
-                { id: null, title: '', selector: '', selector_type: 'text' }
+                { id: null, title: '', selector: '', selector_type: 'Select value' },
+                // { id: null, title: '', selector: '', selector_type: 'text' },
+                // { id: null, title: '', selector: '', selector_type: 'text' }
             ];
         }
     },
@@ -54,7 +54,7 @@ Alpine.data('projectForm', (initialData = {}) => ({
             id: null,
             title: '',
             selector: '',
-            selector_type: 'text'
+            selector_type_id: 1
         });
     },
 
@@ -81,16 +81,17 @@ Alpine.data('projectForm', (initialData = {}) => ({
                 name: this.form.name,
                 base_url: this.form.base_url,
                 description: this.form.description,
-                url_list: this.form.url_list,
+                links: this.form.links,
                 user_id: this.form.user_id,
                 selectors: this.form.selectors.map(selector => ({
                     id: selector.id,
                     title: selector.title,
                     selector: selector.selector,
-                    selector_type: selector.selector_type
+                    selector_type_id: 1
                 }))
             };
-
+            // console.log(submitData);
+            // return false;
             const response = await fetch(url, {
                 method: method,
                 headers: {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Projects\CreateProjectAction;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use App\Services\Parser\Parsers\PageParser;
@@ -35,28 +36,49 @@ class ProjectController extends Controller
         return view('project_settings');
     }
 
-    public function store(ProjectRequest $request)
+    public function store(ProjectRequest $request, CreateProjectAction $action)
     {
-       $project = Project::firstOrCreate(
-           ['base_url' => $request->base_url],
-           $request->validated()
-       );
+        $result = $action->execute($request->validated(), auth()->id());
 
-        if (!$project->wasRecentlyCreated) {
+        if (!$result['created']) {
             return response()->json([
                 'message' => 'Проект с таким base_url уже существует',
-                'errors' => ['base_url' => ['Проект с таким base_url уже существует']]
+                'errors'  => ['base_url' => ['Проект с таким base_url уже существует']],
             ], 409);
-        } else {
-            // Элемент был создан
-            return response()->json([
-                'message' => 'Проект успешно создан',
-                'id' => $project->id,
-                'project' => $project,
-                'selectors' => $project->selectors,
-                'redirect' => route('projects.index')
-            ], 201);
         }
+
+        $project = $result['project']->load('selectors', 'links');
+
+        return response()->json([
+            'message'   => 'Проект успешно создан',
+            'id'        => $project->id,
+            'project'   => $project,
+            'selectors' => $project->selectors,
+            'links'     => $project->links,
+            'redirect'  => route('projects.index'),
+        ], 201);
+
+
+//       $project = Project::firstOrCreate(
+//           ['base_url' => $request->base_url],
+//           $request->validated()
+//       );
+//
+//        if (!$project->wasRecentlyCreated) {
+//            return response()->json([
+//                'message' => 'Проект с таким base_url уже существует',
+//                'errors' => ['base_url' => ['Проект с таким base_url уже существует']]
+//            ], 409);
+//        } else {
+//            // Элемент был создан
+//            return response()->json([
+//                'message' => 'Проект успешно создан',
+//                'id' => $project->id,
+//                'project' => $project,
+//                'selectors' => $project->selectors,
+//                'redirect' => route('projects.index')
+//            ], 201);
+//        }
 
     }
 
@@ -70,6 +92,7 @@ class ProjectController extends Controller
     public function show($id)
     {
         $project = Project::find($id);
+        $project->links_text = $project->links->pluck('url')->implode("\n");
         return view('project_settings', ['project' => $project]);
     }
 

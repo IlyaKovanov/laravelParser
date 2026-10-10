@@ -16,4 +16,14 @@ class Project extends Model
         'description',
         'user_id'
     ];
+
+    public function links()
+    {
+        return $this->hasMany(Link::class);
+    }
+
+    public function selectors()
+    {
+        return $this->hasMany(Selector::class);
+    }
 }

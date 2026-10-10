@@ -13,7 +13,7 @@ class Selector extends Model
     protected $fillable = [
         'title',
         'selector',
-        'selector_type',
+        'selector_type_id',
         'project_id'
     ];
 }

@@ -8,8 +8,7 @@
                         'name' => $project->name ?? '',
                         'base_url' => $project->base_url ?? '',
                         'description' => $project->description ?? '',
-                        'url_list' => $project->url_list ?? '',
-                        'user_id' => auth()->id(),
+                        'links' => $project->links_text ?? '',
                         'selectors' => $project->selectors ?? []
                     ]) }})"
                      x-init="init"
@@ -61,11 +60,11 @@
                                             <textarea id="description" x-model="form.description" rows="3" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"></textarea>
                                         </div>
                                     </div>
-
                                     <div class="col-span-full">
-                                        <label for="url_list" class="block text-sm/6 font-medium text-white">Url list</label>
+                                        <label for="links" class="block text-sm/6 font-medium text-white">Links</label>
                                         <div class="mt-2">
-                                            <textarea id="url_list" x-model="form.url_list" rows="3" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"></textarea>
+                                            <pre x-text="'type=' + typeof form.links + ' value=' + JSON.stringify(form.links)"></pre>
+                                            <textarea id="links" x-model="form.links" rows="3" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"></textarea>
                                         </div>
                                         <p class="mt-3 text-sm/6 text-gray-400">Each link to new string.</p>
                                     </div>
@@ -78,24 +77,25 @@
                                         <div class="sm:col-span-2 sm:col-start-1">
                                             <label for="title" class="block text-sm/6 font-medium text-white">Title</label>
                                             <div class="mt-2">
-                                                <input id="title" type="text" name="title" autocomplete="address-level2" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                                                <input id="title" x-model="selector.title" type="text" name="title" autocomplete="address-level2" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
                                             </div>
                                         </div>
 
                                         <div class="sm:col-span-2">
                                             <label for="selector" class="block text-sm/6 font-medium text-white">Selector</label>
                                             <div class="mt-2">
-                                                <input id="selector" type="text" x-model="form.selector" autocomplete="address-level1" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                                                <input id="selector" type="text" x-model="selector.selector" autocomplete="address-level1" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
                                             </div>
                                         </div>
 
                                         <div class="sm:col-span-2">
-                                            <label for="selector_type" class="block text-sm/6 font-medium text-white">Selector type</label>
+                                            <label for="selector_type_id" class="block text-sm/6 font-medium text-white">Selector type</label>
                                             <div class="mt-2 grid grid-cols-1">
-                                                <select id="selector_type" x-model="form.selector_type" autocomplete="country-name" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white/5 py-1.5 pr-8 pl-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 *:bg-gray-800 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
-                                                    <option>text</option>
-                                                    <option>multiple</option>
-                                                    <option>images</option>
+                                                <select id="selector_type_id" x-model="selector.selector_type_id" autocomplete="country-name" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white/5 py-1.5 pr-8 pl-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 *:bg-gray-800 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
+                                                    <option>Select value</option>
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
                                                 </select>
                                                 <svg viewBox="0 0 16 16" fill="currentColor" data-slot="icon" aria-hidden="true" class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4">
                                                     <path d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
@@ -122,7 +122,6 @@
                                 Delete project
                             </button>
                         </div>
-                        <input type="hidden" x-model="form.user_id">
                     </form>
 
                 </div>
