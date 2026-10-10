@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('base_url')->nullable();
+            $table->string('base_url')->unique();
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
